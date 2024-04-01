@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>870</width>
+    <height>654</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.ico</normaloff>icon.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="minimumSize">
+       <size>
+        <width>410</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="autoScroll">
+       <bool>true</bool>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>200</number>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Key</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="informationWidget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>4</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="materialWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>250</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1000000</width>
+           <height>250</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          </property>
+          <property name="rowWrapPolicy">
+           <enum>QFormLayout::DontWrapRows</enum>
+          </property>
+          <property name="horizontalSpacing">
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>10</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="nameLabel">
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="nameLineEdit">
+            <property name="mouseTracking">
+             <bool>false</bool>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="colorLabel">
+            <property name="text">
+             <string>Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QWidget" name="colorWidget" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_Red">
+               <property name="text">
+                <string>R</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_Red">
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_Green">
+               <property name="text">
+                <string>G</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_Green">
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_Blue">
+               <property name="text">
+                <string>B</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_Blue">
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QWidget" name="material_parametersWidget" native="true">
+            <layout class="QFormLayout" name="formLayout_3">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="transparencyLabel">
+               <property name="text">
+                <string>transparency</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="transparencyLineEdit">
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <property name="cursorMoveStyle">
+                <enum>Qt::LogicalMoveStyle</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="refractionLabel">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>refraction</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="refractionLineEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="roughnessLabel">
+               <property name="text">
+                <string>roughness</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="roughnessLineEdit">
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="metallicityLabel">
+               <property name="text">
+                <string>metallicity</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="metallicityLineEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="mouseTracking">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QPushButton" name="AddMaterial">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Add Material</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addImage">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Add Image</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="coordinatesWidget" native="true">
+         <layout class="QFormLayout" name="formLayout_2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="coordinatesLabel">
+            <property name="text">
+             <string>Coordinates</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QWidget" name="coordinates_inputWidget" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLabel" name="label_X">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_X"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_Y">
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_Y"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QPushButton" name="addCoord">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Add coodrinates</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>870</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menufile">
+    <property name="title">
+     <string>file</string>
+    </property>
+    <addaction name="actionopen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionsave_as"/>
+    <addaction name="actionnew"/>
+   </widget>
+   <addaction name="menufile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionopen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionsave_as">
+   <property name="text">
+    <string>save as</string>
+   </property>
+  </action>
+  <action name="actionnew">
+   <property name="text">
+    <string>new</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
