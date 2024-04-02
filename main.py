@@ -11,6 +11,7 @@ from PySide6.QtGui import QFont, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
+    QLabel,
     QLineEdit,
     QMainWindow,
     QMessageBox,
@@ -22,6 +23,8 @@ from PySide6.QtWidgets import (
 
 import info
 from ui_mainwindow import Ui_MainWindow
+
+VERSION = "v1.0.1"
 
 
 class ReadOnlyDelegate(QStyledItemDelegate):
@@ -64,10 +67,7 @@ class MainWindow(QMainWindow):
         self.ignore = True
         self.items = 0
         self.data = None
-        delegate = ReadOnlyDelegate(self)
-        self.statusBar().setFont(QFont("Times", 11))
 
-        self.ui.tableWidget.setItemDelegateForColumn(0, delegate)
         self.undoAction = self.undoStack.createUndoAction(self)
         self.undoAction.setShortcut("Ctrl+Z")
         self.addAction(self.undoAction)
@@ -75,6 +75,13 @@ class MainWindow(QMainWindow):
         self.redoAction.setShortcut("Ctrl+Y")
         self.addAction(self.redoAction)
 
+        self.ui.statusbar.setFont(QFont("Times", 11))
+        self.label_Version = QLabel()
+        self.label_Version.setStyleSheet("border: 1px solid black;")
+        self.label_Version.setText(VERSION)
+        self.ui.statusbar.addPermanentWidget(self.label_Version)
+        self.delegate = ReadOnlyDelegate(self)
+        self.ui.tableWidget.setItemDelegateForColumn(0, self.delegate)
         self.ui.actionnew.triggered.connect(self.newfile)
         self.ui.actionopen.triggered.connect(self.openfile)
         self.ui.actionsave_as.triggered.connect(self.saveasfile)
