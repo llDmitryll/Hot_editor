@@ -3,7 +3,9 @@ import codecs
 import json
 import re
 import sys
+from io import BytesIO
 
+from PIL import Image
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt, Slot
 from PySide6.QtGui import QFont, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import (
@@ -152,11 +154,14 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def add_image(self):
-        file, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "Image 256x256 px (*.jpeg *.jpg *.png)")
-        with open(file, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-            self.ui.tableWidget.setItem(self.items - 2, 1, QTableWidgetItem(str(encoded_string)[2:-1]))
-        image_file.close()
+        filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "Image (*.jpg *.png)")
+        image = Image.open(filename)
+        image = image.resize((256, 256))
+        image = image.convert("RGB")
+        im_file = BytesIO()
+        image.save(im_file, format="JPEG")
+        encoded_string = base64.b64encode(im_file.getvalue())
+        self.ui.tableWidget.setItem(self.items - 2, 1, QTableWidgetItem(str(encoded_string)[2:-1]))
         self.statusBar().showMessage("Image added")
 
     @Slot()
