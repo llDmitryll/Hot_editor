@@ -219,7 +219,10 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def newfile(self):
-        self.filename, _ = QFileDialog.getSaveFileName(self, "New File", "./", "JSON (*.geojson *.json)")
+        filename, _ = QFileDialog.getSaveFileName(self, "New File", "./", "JSON (*.geojson *.json)")
+        if not filename:
+            return
+        self.filename = filename
         file = codecs.open(self.filename, "w", "utf-8-sig")
         file.write(json.dumps(info.clear, indent=4, ensure_ascii=False))
         file.close()
@@ -227,12 +230,18 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def openfile(self):
-        self.filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "JSON (*.geojson *.json)")
+        filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "JSON (*.geojson *.json)")
+        if not filename:
+            return
+        self.filename = filename
         self.openfl()
 
     @Slot()
     def saveasfile(self):
-        self.filename, _ = QFileDialog.getSaveFileName(self, "Save File", "./", "JSON (*.geojson *.json)")
+        filename, _ = QFileDialog.getSaveFileName(self, "Save File", "./", "JSON (*.geojson *.json)")
+        if not filename:
+            return
+        self.filename = filename
         self.savefile()
 
     @Slot()
