@@ -7,7 +7,7 @@ from io import BytesIO
 
 from PIL import Image
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt, Slot
-from PySide6.QtGui import QFont, QUndoCommand, QUndoStack
+from PySide6.QtGui import QCloseEvent, QFont, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
 import info
 from ui_mainwindow import Ui_MainWindow
 
-VERSION = "v1.0.1"
+VERSION = "v1.0.2"
 
 
 class ReadOnlyDelegate(QStyledItemDelegate):
@@ -67,6 +67,7 @@ class MainWindow(QMainWindow):
         self.ignore = True
         self.items = 0
         self.data = None
+        self.status_unsaved = ""
 
         self.undoAction = self.undoStack.createUndoAction(self)
         self.undoAction.setShortcut("Ctrl+Z")
@@ -122,7 +123,8 @@ class MainWindow(QMainWindow):
         self.data["features"][0]["geometry"]["coordinates"][0] = float(self.ui.lineEdit_X.text())
         self.data["features"][0]["geometry"]["coordinates"][1] = float(self.ui.lineEdit_Y.text())
         self.statusBar().showMessage("Coordinates added")
-        self.setWindowTitle(f"Editor {self.filename}*")
+        self.status_unsaved = "*"
+        self.setTitle()
 
     @Slot()
     def named_material(self):
@@ -156,8 +158,9 @@ class MainWindow(QMainWindow):
         material["transparency"] = self.ui.transparencyLineEdit.text()
         material["metallicity"] = self.ui.metallicityLineEdit.text()
         material["refraction"] = self.ui.refractionLineEdit.text()
-        self.setWindowTitle(f"Editor {self.filename}*")
         self.statusBar().showMessage("Material added")
+        self.status_unsaved = "*"
+        self.setTitle()
 
     @Slot()
     def add_image(self):
@@ -215,7 +218,8 @@ class MainWindow(QMainWindow):
         self.ui.addImage.setEnabled(True)
         self.named_material()
         self.named_coordinates()
-        self.setWindowTitle(f"Editor {self.filename}")
+        self.status_unsaved = ""
+        self.setTitle()
 
     @Slot()
     def newfile(self):
@@ -249,7 +253,8 @@ class MainWindow(QMainWindow):
         file = codecs.open(self.filename, "w", "utf-8-sig")
         file.write(json.dumps(self.data, indent=4, ensure_ascii=False))
         file.close()
-        self.setWindowTitle(f"Editor {self.filename}")
+        self.status_unsaved = ""
+        self.setTitle()
 
     @Slot()
     def datachange(self, item: QTableWidgetItem):
@@ -261,10 +266,32 @@ class MainWindow(QMainWindow):
             item.setText(item.text().replace('"', "'"))
             self.ignore = False
             self.data["features"][0]["properties"][key] = item.text()
-            self.setWindowTitle(f"Editor {self.filename}*")
+            self.status_unsaved = "*"
+            self.setTitle()
             if not self.reundo:
                 command = TextChangedCommand(self, item, oldtext)
                 self.undoStack.push(command)
+
+    def setTitle(self):
+        self.setWindowTitle(f"Editor {self.filename}{self.status_unsaved}")
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        self.ui.tableWidget.reset()
+        if self.status_unsaved:
+            dialog = QMessageBox(self)
+            dialog.addButton(QMessageBox.StandardButton.Yes)
+            dialog.addButton(QMessageBox.StandardButton.No)
+            dialog.addButton(QMessageBox.StandardButton.Cancel)
+            dialog.setText(f'Save changes to "{self.filename}"?')
+            dialog.setIcon(QMessageBox.Icon.Warning)
+            ret = dialog.exec()
+            if ret == QMessageBox.StandardButton.Yes:
+                self.savefile()
+            elif ret == QMessageBox.StandardButton.No:
+                return super().closeEvent(event)
+            else:
+                return event.ignore()
+        return super().closeEvent(event)
 
 
 if __name__ == "__main__":

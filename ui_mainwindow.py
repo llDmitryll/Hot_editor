@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setMinimumSize(QSize(410, 0))
-        self.tableWidget.setMouseTracking(False)
+        self.tableWidget.setMouseTracking(True)
         self.tableWidget.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.tableWidget.setFrameShape(QFrame.Box)
         self.tableWidget.setFrameShadow(QFrame.Sunken)
