@@ -6,9 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>654</height>
+    <width>867</width>
+    <height>659</height>
    </rect>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -87,6 +90,9 @@
        </size>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>10</number>
+       </property>
        <property name="leftMargin">
         <number>4</number>
        </property>
@@ -162,11 +168,23 @@
           </item>
           <item row="0" column="1">
            <widget class="QLineEdit" name="nameLineEdit">
+            <property name="minimumSize">
+             <size>
+              <width>240</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>240</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="mouseTracking">
              <bool>false</bool>
             </property>
             <property name="frame">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -187,13 +205,13 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <property name="leftMargin">
-              <number>0</number>
+              <number>3</number>
              </property>
              <property name="topMargin">
               <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>12</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
@@ -207,11 +225,23 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_Red">
+               <property name="minimumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -224,11 +254,23 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_Green">
+               <property name="minimumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -241,11 +283,29 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_Blue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>63</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -276,6 +336,24 @@
              </item>
              <item row="0" column="1">
               <widget class="QLineEdit" name="transparencyLineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
@@ -283,7 +361,7 @@
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="cursorMoveStyle">
                 <enum>Qt::LogicalMoveStyle</enum>
@@ -299,23 +377,35 @@
                 </size>
                </property>
                <property name="text">
-                <string>refraction</string>
+                <string>refractiogn</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
               <widget class="QLineEdit" name="refractionLineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
-                 <height>0</height>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>208</width>
+                 <height>20</height>
                 </size>
                </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -331,11 +421,29 @@
              </item>
              <item row="2" column="1">
               <widget class="QLineEdit" name="roughnessLineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -348,17 +456,29 @@
              </item>
              <item row="3" column="1">
               <widget class="QLineEdit" name="metallicityLineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
-                 <height>0</height>
+                 <width>208</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>20</height>
                 </size>
                </property>
                <property name="mouseTracking">
                 <bool>false</bool>
                </property>
                <property name="frame">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -366,12 +486,22 @@
            </widget>
           </item>
           <item row="3" column="0" colspan="2">
-           <widget class="QPushButton" name="AddMaterial">
+           <widget class="QPushButton" name="addMaterial">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
              <string>Add Material</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
+           <widget class="QPushButton" name="deleteMaterial">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Delete Material</string>
             </property>
            </widget>
           </item>
@@ -385,6 +515,16 @@
          </property>
          <property name="text">
           <string>Add Image</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="showImage">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Show Image</string>
          </property>
         </widget>
        </item>
@@ -410,9 +550,31 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QPushButton" name="addCoord">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Add coodrinates</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1">
            <widget class="QWidget" name="coordinates_inputWidget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="mouseTracking">
+             <bool>false</bool>
+            </property>
             <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
              <item>
               <widget class="QLabel" name="label_X">
                <property name="text">
@@ -421,7 +583,29 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_X"/>
+              <widget class="QLineEdit" name="lineEdit_X">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_Y">
@@ -431,19 +615,46 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_Y"/>
+              <widget class="QLineEdit" name="lineEdit_Y">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhNone</set>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QPushButton" name="addCoord">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Add coodrinates</string>
-            </property>
            </widget>
           </item>
          </layout>
@@ -459,7 +670,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>870</width>
+     <width>867</width>
      <height>22</height>
     </rect>
    </property>

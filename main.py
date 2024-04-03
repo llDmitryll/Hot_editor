@@ -1,11 +1,12 @@
 import base64
+import binascii
 import codecs
 import json
 import re
 import sys
 from io import BytesIO
 
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt, Slot
 from PySide6.QtGui import QCloseEvent, QFont, QUndoCommand, QUndoStack
 from PySide6.QtWidgets import (
@@ -24,7 +25,7 @@ from PySide6.QtWidgets import (
 import info
 from ui_mainwindow import Ui_MainWindow
 
-VERSION = "v1.0.2"
+VERSION = "v1.0.3"
 
 
 class ReadOnlyDelegate(QStyledItemDelegate):
@@ -93,8 +94,10 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit_Y.textEdited.connect(self.named_coordinates)
         self.ui.lineEdit_X.textEdited.connect(self.named_coordinates)
         self.ui.addCoord.clicked.connect(self.add_coordinates)
-        self.ui.AddMaterial.clicked.connect(self.add_material)
+        self.ui.deleteMaterial.clicked.connect(self.delete_material)
+        self.ui.addMaterial.clicked.connect(self.add_material)
         self.ui.addImage.clicked.connect(self.add_image)
+        self.ui.showImage.clicked.connect(self.show_image)
 
         if len(argv) == 2:
             self.filename = argv[-1]
@@ -116,7 +119,6 @@ class MainWindow(QMainWindow):
             dialog = QMessageBox(icon=QMessageBox.Icon.Critical, parent=self)
             dialog.setWindowTitle("Error")
             dialog.setText("Coordinates must be real numbers (use . instead of ,)")
-            dialog.setFont(QFont("Times", 12))
             self.statusBar().showMessage("ERROR")
             dialog.exec()
             return
@@ -130,9 +132,9 @@ class MainWindow(QMainWindow):
     def named_material(self):
         text = self.ui.nameLineEdit.text()
         if self.file and len(text) != 0:
-            self.ui.AddMaterial.setEnabled(True)
+            self.ui.addMaterial.setEnabled(True)
         else:
-            self.ui.AddMaterial.setEnabled(False)
+            self.ui.addMaterial.setEnabled(False)
 
     @Slot()
     def add_material(self):
@@ -143,7 +145,6 @@ class MainWindow(QMainWindow):
                 dialog = QMessageBox(icon=QMessageBox.Icon.Critical, parent=self)
                 dialog.setWindowTitle("Error")
                 dialog.setText('Parameters must be real numbers with ","')
-                dialog.setFont(QFont("Times", 12))
                 self.statusBar().showMessage("ERROR")
                 dialog.exec()
                 return
@@ -158,22 +159,57 @@ class MainWindow(QMainWindow):
         material["transparency"] = self.ui.transparencyLineEdit.text()
         material["metallicity"] = self.ui.metallicityLineEdit.text()
         material["refraction"] = self.ui.refractionLineEdit.text()
+        self.ui.deleteMaterial.setEnabled(True)
         self.statusBar().showMessage("Material added")
+        self.status_unsaved = "*"
+        self.setTitle()
+
+    @Slot()
+    def delete_material(self):
+        self.ui.deleteMaterial.setEnabled(False)
+        self.ui.addMaterial.setEnabled(False)
+        self.data["features"][0]["Glasses"].clear()
+        for line_edit in self.ui.materialWidget.findChildren(QLineEdit):
+            line_edit.clear()
+        self.statusBar().showMessage("Material deleted")
         self.status_unsaved = "*"
         self.setTitle()
 
     @Slot()
     def add_image(self):
         filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "Image (*.jpg *.png)")
+        if not filename:
+            return
         image = Image.open(filename)
         image = image.resize((256, 256))
         image = image.convert("RGB")
         im_file = BytesIO()
         image.save(im_file, format="JPEG", quality=90)
-        image.show()
         encoded_string = base64.b64encode(im_file.getvalue())
         self.ui.tableWidget.setItem(self.items - 2, 1, QTableWidgetItem(str(encoded_string)[2:-1]))
         self.statusBar().showMessage("Image added")
+
+    @Slot()
+    def show_image(self):
+        try:
+            file = BytesIO(base64.b64decode(self.data["features"][0]["properties"]["imageBase64"]))
+        except binascii.Error:
+            dialog = QMessageBox(icon=QMessageBox.Icon.Critical, parent=self)
+            dialog.setWindowTitle("Error")
+            dialog.setText("Cannot decode base64 string")
+            self.statusBar().showMessage("ERROR")
+            dialog.exec()
+            return
+        try:
+            image = Image.open(file)
+        except UnidentifiedImageError:
+            dialog = QMessageBox(icon=QMessageBox.Icon.Critical, parent=self)
+            dialog.setWindowTitle("Error")
+            dialog.setText("Cannot identify image")
+            self.statusBar().showMessage("ERROR")
+            dialog.exec()
+            return
+        image.show()
 
     @Slot()
     def infostat(self, item: QTableWidgetItem):
@@ -195,7 +231,12 @@ class MainWindow(QMainWindow):
             self.ui.tableWidget.setItem(self.items, 1, value_item)
             self.items += 1
         self.ignore = False
+        if self.data["features"][0]["properties"]["imageBase64"]:
+            self.ui.showImage.setEnabled(True)
+        else:
+            self.ui.showImage.setEnabled(False)
         if self.data["features"][0]["Glasses"]:
+            self.ui.deleteMaterial.setEnabled(True)
             material = list(self.data["features"][0]["Glasses"][0].values())[0]
             self.ui.nameLineEdit.setText(list(self.data["features"][0]["Glasses"][0].keys())[0])
             self.ui.lineEdit_Red.setText(material["color_RGB"]["Red"])
@@ -206,6 +247,7 @@ class MainWindow(QMainWindow):
             self.ui.metallicityLineEdit.setText(material["metallicity"])
             self.ui.refractionLineEdit.setText(material["refraction"])
         else:
+            self.ui.deleteMaterial.setEnabled(False)
             self.ui.nameLineEdit.setText("")
             self.ui.lineEdit_Red.setText("")
             self.ui.lineEdit_Green.setText("")
@@ -267,6 +309,11 @@ class MainWindow(QMainWindow):
             item.setText(item.text().replace('"', "'"))
             self.ignore = False
             self.data["features"][0]["properties"][key] = item.text()
+            if key == "imageBase64":
+                if item.text():
+                    self.ui.showImage.setEnabled(True)
+                else:
+                    self.ui.showImage.setEnabled(False)
             self.status_unsaved = "*"
             self.setTitle()
             if not self.reundo:
@@ -283,6 +330,7 @@ class MainWindow(QMainWindow):
             dialog.addButton(QMessageBox.StandardButton.Yes)
             dialog.addButton(QMessageBox.StandardButton.No)
             dialog.addButton(QMessageBox.StandardButton.Cancel)
+            dialog.setWindowTitle("Editor")
             dialog.setText(f'Save changes to "{self.filename}"?')
             dialog.setIcon(QMessageBox.Icon.Warning)
             ret = dialog.exec()

@@ -26,7 +26,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(870, 654)
+        MainWindow.resize(867, 659)
+        MainWindow.setMouseTracking(False)
         icon = QIcon()
         icon.addFile(u"icon.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -70,6 +71,7 @@ class Ui_MainWindow(object):
         self.informationWidget.setMinimumSize(QSize(300, 0))
         self.informationWidget.setMaximumSize(QSize(300, 16777215))
         self.verticalLayout_2 = QVBoxLayout(self.informationWidget)
+        self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
         self.materialWidget = QWidget(self.informationWidget)
@@ -97,8 +99,10 @@ class Ui_MainWindow(object):
 
         self.nameLineEdit = QLineEdit(self.materialWidget)
         self.nameLineEdit.setObjectName(u"nameLineEdit")
+        self.nameLineEdit.setMinimumSize(QSize(240, 20))
+        self.nameLineEdit.setMaximumSize(QSize(240, 20))
         self.nameLineEdit.setMouseTracking(False)
-        self.nameLineEdit.setFrame(False)
+        self.nameLineEdit.setFrame(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.nameLineEdit)
 
@@ -112,7 +116,7 @@ class Ui_MainWindow(object):
         self.colorWidget.setMinimumSize(QSize(0, 0))
         self.horizontalLayout_2 = QHBoxLayout(self.colorWidget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(3, 0, 12, 0)
         self.label_Red = QLabel(self.colorWidget)
         self.label_Red.setObjectName(u"label_Red")
 
@@ -120,8 +124,10 @@ class Ui_MainWindow(object):
 
         self.lineEdit_Red = QLineEdit(self.colorWidget)
         self.lineEdit_Red.setObjectName(u"lineEdit_Red")
+        self.lineEdit_Red.setMinimumSize(QSize(63, 20))
+        self.lineEdit_Red.setMaximumSize(QSize(63, 20))
         self.lineEdit_Red.setMouseTracking(False)
-        self.lineEdit_Red.setFrame(False)
+        self.lineEdit_Red.setFrame(True)
 
         self.horizontalLayout_2.addWidget(self.lineEdit_Red)
 
@@ -132,8 +138,10 @@ class Ui_MainWindow(object):
 
         self.lineEdit_Green = QLineEdit(self.colorWidget)
         self.lineEdit_Green.setObjectName(u"lineEdit_Green")
+        self.lineEdit_Green.setMinimumSize(QSize(63, 20))
+        self.lineEdit_Green.setMaximumSize(QSize(63, 20))
         self.lineEdit_Green.setMouseTracking(False)
-        self.lineEdit_Green.setFrame(False)
+        self.lineEdit_Green.setFrame(True)
 
         self.horizontalLayout_2.addWidget(self.lineEdit_Green)
 
@@ -144,8 +152,15 @@ class Ui_MainWindow(object):
 
         self.lineEdit_Blue = QLineEdit(self.colorWidget)
         self.lineEdit_Blue.setObjectName(u"lineEdit_Blue")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.lineEdit_Blue.sizePolicy().hasHeightForWidth())
+        self.lineEdit_Blue.setSizePolicy(sizePolicy1)
+        self.lineEdit_Blue.setMinimumSize(QSize(63, 20))
+        self.lineEdit_Blue.setMaximumSize(QSize(63, 20))
         self.lineEdit_Blue.setMouseTracking(False)
-        self.lineEdit_Blue.setFrame(False)
+        self.lineEdit_Blue.setFrame(True)
 
         self.horizontalLayout_2.addWidget(self.lineEdit_Blue)
 
@@ -164,9 +179,13 @@ class Ui_MainWindow(object):
 
         self.transparencyLineEdit = QLineEdit(self.material_parametersWidget)
         self.transparencyLineEdit.setObjectName(u"transparencyLineEdit")
+        sizePolicy1.setHeightForWidth(self.transparencyLineEdit.sizePolicy().hasHeightForWidth())
+        self.transparencyLineEdit.setSizePolicy(sizePolicy1)
+        self.transparencyLineEdit.setMinimumSize(QSize(208, 20))
+        self.transparencyLineEdit.setMaximumSize(QSize(208, 20))
         self.transparencyLineEdit.setMouseTracking(False)
         self.transparencyLineEdit.setAutoFillBackground(False)
-        self.transparencyLineEdit.setFrame(False)
+        self.transparencyLineEdit.setFrame(True)
         self.transparencyLineEdit.setCursorMoveStyle(Qt.LogicalMoveStyle)
 
         self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.transparencyLineEdit)
@@ -179,9 +198,12 @@ class Ui_MainWindow(object):
 
         self.refractionLineEdit = QLineEdit(self.material_parametersWidget)
         self.refractionLineEdit.setObjectName(u"refractionLineEdit")
-        self.refractionLineEdit.setMinimumSize(QSize(0, 0))
+        sizePolicy1.setHeightForWidth(self.refractionLineEdit.sizePolicy().hasHeightForWidth())
+        self.refractionLineEdit.setSizePolicy(sizePolicy1)
+        self.refractionLineEdit.setMinimumSize(QSize(208, 20))
+        self.refractionLineEdit.setMaximumSize(QSize(208, 20))
         self.refractionLineEdit.setMouseTracking(False)
-        self.refractionLineEdit.setFrame(False)
+        self.refractionLineEdit.setFrame(True)
         self.refractionLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.refractionLineEdit)
@@ -193,8 +215,12 @@ class Ui_MainWindow(object):
 
         self.roughnessLineEdit = QLineEdit(self.material_parametersWidget)
         self.roughnessLineEdit.setObjectName(u"roughnessLineEdit")
+        sizePolicy1.setHeightForWidth(self.roughnessLineEdit.sizePolicy().hasHeightForWidth())
+        self.roughnessLineEdit.setSizePolicy(sizePolicy1)
+        self.roughnessLineEdit.setMinimumSize(QSize(208, 20))
+        self.roughnessLineEdit.setMaximumSize(QSize(208, 20))
         self.roughnessLineEdit.setMouseTracking(False)
-        self.roughnessLineEdit.setFrame(False)
+        self.roughnessLineEdit.setFrame(True)
 
         self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.roughnessLineEdit)
 
@@ -205,20 +231,29 @@ class Ui_MainWindow(object):
 
         self.metallicityLineEdit = QLineEdit(self.material_parametersWidget)
         self.metallicityLineEdit.setObjectName(u"metallicityLineEdit")
-        self.metallicityLineEdit.setMinimumSize(QSize(0, 0))
+        sizePolicy1.setHeightForWidth(self.metallicityLineEdit.sizePolicy().hasHeightForWidth())
+        self.metallicityLineEdit.setSizePolicy(sizePolicy1)
+        self.metallicityLineEdit.setMinimumSize(QSize(208, 20))
+        self.metallicityLineEdit.setMaximumSize(QSize(200, 20))
         self.metallicityLineEdit.setMouseTracking(False)
-        self.metallicityLineEdit.setFrame(False)
+        self.metallicityLineEdit.setFrame(True)
 
         self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.metallicityLineEdit)
 
 
         self.formLayout.setWidget(2, QFormLayout.SpanningRole, self.material_parametersWidget)
 
-        self.AddMaterial = QPushButton(self.materialWidget)
-        self.AddMaterial.setObjectName(u"AddMaterial")
-        self.AddMaterial.setEnabled(False)
+        self.addMaterial = QPushButton(self.materialWidget)
+        self.addMaterial.setObjectName(u"addMaterial")
+        self.addMaterial.setEnabled(False)
 
-        self.formLayout.setWidget(3, QFormLayout.SpanningRole, self.AddMaterial)
+        self.formLayout.setWidget(3, QFormLayout.SpanningRole, self.addMaterial)
+
+        self.deleteMaterial = QPushButton(self.materialWidget)
+        self.deleteMaterial.setObjectName(u"deleteMaterial")
+        self.deleteMaterial.setEnabled(False)
+
+        self.formLayout.setWidget(4, QFormLayout.SpanningRole, self.deleteMaterial)
 
 
         self.verticalLayout_2.addWidget(self.materialWidget)
@@ -228,6 +263,12 @@ class Ui_MainWindow(object):
         self.addImage.setEnabled(False)
 
         self.verticalLayout_2.addWidget(self.addImage)
+
+        self.showImage = QPushButton(self.informationWidget)
+        self.showImage.setObjectName(u"showImage")
+        self.showImage.setEnabled(False)
+
+        self.verticalLayout_2.addWidget(self.showImage)
 
         self.coordinatesWidget = QWidget(self.informationWidget)
         self.coordinatesWidget.setObjectName(u"coordinatesWidget")
@@ -239,10 +280,20 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.coordinatesLabel)
 
+        self.addCoord = QPushButton(self.coordinatesWidget)
+        self.addCoord.setObjectName(u"addCoord")
+        self.addCoord.setEnabled(False)
+
+        self.formLayout_2.setWidget(1, QFormLayout.SpanningRole, self.addCoord)
+
         self.coordinates_inputWidget = QWidget(self.coordinatesWidget)
         self.coordinates_inputWidget.setObjectName(u"coordinates_inputWidget")
+        sizePolicy.setHeightForWidth(self.coordinates_inputWidget.sizePolicy().hasHeightForWidth())
+        self.coordinates_inputWidget.setSizePolicy(sizePolicy)
+        self.coordinates_inputWidget.setMouseTracking(False)
         self.verticalLayout = QVBoxLayout(self.coordinates_inputWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.label_X = QLabel(self.coordinates_inputWidget)
         self.label_X.setObjectName(u"label_X")
 
@@ -250,6 +301,10 @@ class Ui_MainWindow(object):
 
         self.lineEdit_X = QLineEdit(self.coordinates_inputWidget)
         self.lineEdit_X.setObjectName(u"lineEdit_X")
+        self.lineEdit_X.setMinimumSize(QSize(0, 20))
+        self.lineEdit_X.setMaximumSize(QSize(16777215, 20))
+        self.lineEdit_X.setSizeIncrement(QSize(0, 0))
+        self.lineEdit_X.setFrame(True)
 
         self.verticalLayout.addWidget(self.lineEdit_X)
 
@@ -260,17 +315,22 @@ class Ui_MainWindow(object):
 
         self.lineEdit_Y = QLineEdit(self.coordinates_inputWidget)
         self.lineEdit_Y.setObjectName(u"lineEdit_Y")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.lineEdit_Y.sizePolicy().hasHeightForWidth())
+        self.lineEdit_Y.setSizePolicy(sizePolicy2)
+        self.lineEdit_Y.setMinimumSize(QSize(0, 20))
+        self.lineEdit_Y.setMaximumSize(QSize(16777215, 20))
+        self.lineEdit_Y.setSizeIncrement(QSize(0, 0))
+        self.lineEdit_Y.setBaseSize(QSize(0, 0))
+        self.lineEdit_Y.setInputMethodHints(Qt.ImhNone)
+        self.lineEdit_Y.setFrame(True)
 
         self.verticalLayout.addWidget(self.lineEdit_Y)
 
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.coordinates_inputWidget)
-
-        self.addCoord = QPushButton(self.coordinatesWidget)
-        self.addCoord.setObjectName(u"addCoord")
-        self.addCoord.setEnabled(False)
-
-        self.formLayout_2.setWidget(1, QFormLayout.SpanningRole, self.addCoord)
 
 
         self.verticalLayout_2.addWidget(self.coordinatesWidget)
@@ -281,7 +341,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 870, 22))
+        self.menubar.setGeometry(QRect(0, 0, 867, 22))
         self.menufile = QMenu(self.menubar)
         self.menufile.setObjectName(u"menufile")
         MainWindow.setMenuBar(self.menubar)
@@ -322,15 +382,17 @@ class Ui_MainWindow(object):
         self.label_Green.setText(QCoreApplication.translate("MainWindow", u"G", None))
         self.label_Blue.setText(QCoreApplication.translate("MainWindow", u"B", None))
         self.transparencyLabel.setText(QCoreApplication.translate("MainWindow", u"transparency", None))
-        self.refractionLabel.setText(QCoreApplication.translate("MainWindow", u"refraction", None))
+        self.refractionLabel.setText(QCoreApplication.translate("MainWindow", u"refractiogn", None))
         self.roughnessLabel.setText(QCoreApplication.translate("MainWindow", u"roughness", None))
         self.metallicityLabel.setText(QCoreApplication.translate("MainWindow", u"metallicity", None))
-        self.AddMaterial.setText(QCoreApplication.translate("MainWindow", u"Add Material", None))
+        self.addMaterial.setText(QCoreApplication.translate("MainWindow", u"Add Material", None))
+        self.deleteMaterial.setText(QCoreApplication.translate("MainWindow", u"Delete Material", None))
         self.addImage.setText(QCoreApplication.translate("MainWindow", u"Add Image", None))
+        self.showImage.setText(QCoreApplication.translate("MainWindow", u"Show Image", None))
         self.coordinatesLabel.setText(QCoreApplication.translate("MainWindow", u"Coordinates", None))
+        self.addCoord.setText(QCoreApplication.translate("MainWindow", u"Add coodrinates", None))
         self.label_X.setText(QCoreApplication.translate("MainWindow", u"X", None))
         self.label_Y.setText(QCoreApplication.translate("MainWindow", u"Y", None))
-        self.addCoord.setText(QCoreApplication.translate("MainWindow", u"Add coodrinates", None))
         self.menufile.setTitle(QCoreApplication.translate("MainWindow", u"file", None))
     # retranslateUi
 
