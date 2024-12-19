@@ -200,6 +200,9 @@ class Ui_MainWindow(object):
 
         self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.transparencyLabel)
 
+        self.line_edit_height = 20
+        self.line_edit_width = 196
+
         self.transparencyLineEdit = QLineEdit(self.material_parametersWidget)
         self.transparencyLineEdit.setObjectName(u"transparencyLineEdit")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
@@ -207,7 +210,8 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.transparencyLineEdit.sizePolicy().hasHeightForWidth())
         self.transparencyLineEdit.setSizePolicy(sizePolicy2)
-        self.transparencyLineEdit.setFixedHeight(22)
+        self.transparencyLineEdit.setFixedHeight(self.line_edit_height)
+        self.transparencyLineEdit.setFixedWidth(self.line_edit_width)
         self.transparencyLineEdit.setAutoFillBackground(False)
         self.transparencyLineEdit.setFrame(True)
         self.transparencyLineEdit.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
@@ -222,7 +226,8 @@ class Ui_MainWindow(object):
 
         self.refractionLineEdit = QLineEdit(self.material_parametersWidget)
         self.refractionLineEdit.setObjectName(u"refractionLineEdit")
-        self.refractionLineEdit.setFixedHeight(22)
+        self.refractionLineEdit.setFixedHeight(self.line_edit_height)
+        self.refractionLineEdit.setFixedWidth(self.line_edit_width)
         self.refractionLineEdit.setFrame(True)
         self.refractionLineEdit.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
 
@@ -235,7 +240,8 @@ class Ui_MainWindow(object):
 
         self.roughnessLineEdit = QLineEdit(self.material_parametersWidget)
         self.roughnessLineEdit.setObjectName(u"roughnessLineEdit")
-        self.roughnessLineEdit.setFixedHeight(22)
+        self.roughnessLineEdit.setFixedHeight(self.line_edit_height)
+        self.roughnessLineEdit.setFixedWidth(self.line_edit_width)
         self.roughnessLineEdit.setFrame(True)
 
         self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.roughnessLineEdit)
@@ -247,7 +253,8 @@ class Ui_MainWindow(object):
 
         self.metallicityLineEdit = QLineEdit(self.material_parametersWidget)
         self.metallicityLineEdit.setObjectName(u"metallicityLineEdit")
-        self.metallicityLineEdit.setFixedHeight(22)
+        self.metallicityLineEdit.setFixedHeight(self.line_edit_height)
+        self.metallicityLineEdit.setFixedWidth(self.line_edit_width)
         self.metallicityLineEdit.setFrame(True)
 
         self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.metallicityLineEdit)
