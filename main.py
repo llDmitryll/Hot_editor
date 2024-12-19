@@ -4,6 +4,7 @@ import codecs
 import json
 import re
 import sys
+import copy
 from io import BytesIO
 
 from PIL import Image, UnidentifiedImageError
@@ -20,12 +21,14 @@ from PySide6.QtWidgets import (
     QStyleOptionViewItem,
     QTableWidgetItem,
     QWidget,
+    QColorDialog,
+    QListWidgetItem,
 )
 
 import info
 from ui_mainwindow import Ui_MainWindow
 
-VERSION = "v1.0.3"
+VERSION = "v1.0.4"
 
 
 class ReadOnlyDelegate(QStyledItemDelegate):
@@ -61,6 +64,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.undoStack = QUndoStack(self)
+        self.setFont(QFont("Consolas", 9))
         self.setWindowTitle("Editor")
         self.file = None
         self.filename = ""
@@ -96,8 +100,10 @@ class MainWindow(QMainWindow):
         self.ui.addCoord.clicked.connect(self.add_coordinates)
         self.ui.deleteMaterial.clicked.connect(self.delete_material)
         self.ui.addMaterial.clicked.connect(self.add_material)
+        self.ui.materialsListWidget.itemClicked.connect(self.select_material)
         self.ui.addImage.clicked.connect(self.add_image)
         self.ui.showImage.clicked.connect(self.show_image)
+        self.ui.selectColor.clicked.connect(self.select_color)
 
         if len(argv) == 2:
             self.filename = argv[-1]
@@ -129,12 +135,51 @@ class MainWindow(QMainWindow):
         self.setTitle()
 
     @Slot()
+    def select_color(self):
+        options = QColorDialog.ColorDialogOption.ShowAlphaChannel
+        color = QColorDialog.getColor(parent=self, options=options)
+        r, g, b, a = color.getRgb()
+        self.ui.lineEdit_Red.setText(str(r))
+        self.ui.lineEdit_Green.setText(str(g))
+        self.ui.lineEdit_Blue.setText(str(b))
+
+    def fill_material_ui(self, material_dict):
+        material = list(material_dict.values())[0]
+        self.ui.nameLineEdit.setText(list(material_dict.keys())[0])
+        self.ui.lineEdit_Red.setText(material["color_RGB"]["Red"])
+        self.ui.lineEdit_Green.setText(material["color_RGB"]["Green"])
+        self.ui.lineEdit_Blue.setText(material["color_RGB"]["Blue"])
+        self.ui.roughnessLineEdit.setText(material["roughness"])
+        self.ui.transparencyLineEdit.setText(material["transparency"])
+        self.ui.metallicityLineEdit.setText(material["metallicity"])
+        self.ui.refractionLineEdit.setText(material["refraction"])
+    
+    def fill_material_data(self, material):
+        material["color_RGB"]["Red"] = self.ui.lineEdit_Red.text()
+        material["color_RGB"]["Green"] = self.ui.lineEdit_Green.text()
+        material["color_RGB"]["Blue"] = self.ui.lineEdit_Blue.text()
+        material["roughness"] = self.ui.roughnessLineEdit.text()
+        material["transparency"] = self.ui.transparencyLineEdit.text()
+        material["metallicity"] = self.ui.metallicityLineEdit.text()
+        material["refraction"] = self.ui.refractionLineEdit.text()
+
+    @Slot()
     def named_material(self):
         text = self.ui.nameLineEdit.text()
         if self.file and len(text) != 0:
             self.ui.addMaterial.setEnabled(True)
         else:
             self.ui.addMaterial.setEnabled(False)
+
+    @Slot()
+    def select_material(self, item):
+        material_name = item.text()
+        for elem in self.data["features"][0]["Glasses"]:
+            if list(elem.keys())[0] == material_name:
+                self.ui.deleteMaterial.setEnabled(True)
+                self.ui.addMaterial.setEnabled(True)
+                self.fill_material_ui(elem)
+                break
 
     @Slot()
     def add_material(self):
@@ -148,36 +193,54 @@ class MainWindow(QMainWindow):
                 self.statusBar().showMessage("ERROR")
                 dialog.exec()
                 return
-        self.data["features"][0]["Glasses"].clear()
-        text = self.ui.nameLineEdit.text()
-        self.data["features"][0]["Glasses"].append({text: info.defaultmaterial})
-        material = self.data["features"][0]["Glasses"][0][text]
-        material["color_RGB"]["Red"] = self.ui.lineEdit_Red.text()
-        material["color_RGB"]["Green"] = self.ui.lineEdit_Green.text()
-        material["color_RGB"]["Blue"] = self.ui.lineEdit_Blue.text()
-        material["roughness"] = self.ui.roughnessLineEdit.text()
-        material["transparency"] = self.ui.transparencyLineEdit.text()
-        material["metallicity"] = self.ui.metallicityLineEdit.text()
-        material["refraction"] = self.ui.refractionLineEdit.text()
-        self.ui.deleteMaterial.setEnabled(True)
+
+        material_name = self.ui.nameLineEdit.text()
+        find = False
+        for elem in self.data["features"][0]["Glasses"]:
+            if list(elem.keys())[0] == material_name:
+                material = elem[material_name]
+                self.fill_material_data(material)
+                find = True
+                break
+        if not find:
+            material = copy.deepcopy(info.defaultmaterial)
+            self.fill_material_data(material)
+            self.data["features"][0]["Glasses"].append({material_name: material})
+            self.ui.materialsListWidget.addItem(QListWidgetItem(material_name))
+            self.ui.materialsListWidget.setCurrentRow(self.ui.materialsListWidget.count() - 1)
+            self.ui.deleteMaterial.setEnabled(True)
+        
         self.statusBar().showMessage("Material added")
         self.status_unsaved = "*"
         self.setTitle()
 
     @Slot()
     def delete_material(self):
-        self.ui.deleteMaterial.setEnabled(False)
         self.ui.addMaterial.setEnabled(False)
-        self.data["features"][0]["Glasses"].clear()
-        for line_edit in self.ui.materialWidget.findChildren(QLineEdit):
-            line_edit.clear()
+        for elem in self.data["features"][0]["Glasses"]:
+            if list(elem.keys())[0] == self.ui.materialsListWidget.currentItem().text():
+                self.data["features"][0]["Glasses"].remove(elem)
+                break
+        self.ui.materialsListWidget.takeItem(self.ui.materialsListWidget.currentRow())
+        if self.ui.materialsListWidget.count() == 0:
+            self.ui.deleteMaterial.setEnabled(False)
+            for line_edit in self.ui.materialWidget.findChildren(QLineEdit):
+                line_edit.clear()
+        else:
+            material_name = self.ui.materialsListWidget.currentItem().text()
+            for elem in self.data["features"][0]["Glasses"]:
+                if list(elem.keys())[0] == material_name:
+                    self.ui.deleteMaterial.setEnabled(True)
+                    self.ui.addMaterial.setEnabled(True)
+                    self.fill_material_ui(elem)
+                    break
         self.statusBar().showMessage("Material deleted")
         self.status_unsaved = "*"
         self.setTitle()
 
     @Slot()
     def add_image(self):
-        filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "Image (*.jpg *.png)")
+        filename, _ = QFileDialog.getOpenFileName(None, "Open File", "./", "Image (*.jpg)")
         if not filename:
             return
         image = Image.open(filename)
@@ -236,26 +299,8 @@ class MainWindow(QMainWindow):
         else:
             self.ui.showImage.setEnabled(False)
         if self.data["features"][0]["Glasses"]:
-            self.ui.deleteMaterial.setEnabled(True)
-            material = list(self.data["features"][0]["Glasses"][0].values())[0]
-            self.ui.nameLineEdit.setText(list(self.data["features"][0]["Glasses"][0].keys())[0])
-            self.ui.lineEdit_Red.setText(material["color_RGB"]["Red"])
-            self.ui.lineEdit_Green.setText(material["color_RGB"]["Green"])
-            self.ui.lineEdit_Blue.setText(material["color_RGB"]["Blue"])
-            self.ui.roughnessLineEdit.setText(material["roughness"])
-            self.ui.transparencyLineEdit.setText(material["transparency"])
-            self.ui.metallicityLineEdit.setText(material["metallicity"])
-            self.ui.refractionLineEdit.setText(material["refraction"])
-        else:
-            self.ui.deleteMaterial.setEnabled(False)
-            self.ui.nameLineEdit.setText("")
-            self.ui.lineEdit_Red.setText("")
-            self.ui.lineEdit_Green.setText("")
-            self.ui.lineEdit_Blue.setText("")
-            self.ui.roughnessLineEdit.setText("")
-            self.ui.transparencyLineEdit.setText("")
-            self.ui.metallicityLineEdit.setText("")
-            self.ui.refractionLineEdit.setText("")
+            for elem in self.data["features"][0]["Glasses"]:
+                self.ui.materialsListWidget.addItem(QListWidgetItem(str(list(elem.keys())[0])))
         self.ui.lineEdit_X.setText(str(self.data["features"][0]["geometry"]["coordinates"][0]))
         self.ui.lineEdit_Y.setText(str(self.data["features"][0]["geometry"]["coordinates"][1]))
         self.ui.addImage.setEnabled(True)
