@@ -298,6 +298,7 @@ class MainWindow(QMainWindow):
             self.ui.showImage.setEnabled(True)
         else:
             self.ui.showImage.setEnabled(False)
+        self.ui.materialsListWidget.clear()
         if self.data["features"][0]["Glasses"]:
             for elem in self.data["features"][0]["Glasses"]:
                 self.ui.materialsListWidget.addItem(QListWidgetItem(str(list(elem.keys())[0])))
@@ -316,7 +317,7 @@ class MainWindow(QMainWindow):
             return
         self.filename = filename
         file = codecs.open(self.filename, "w", "utf-8-sig")
-        file.write(json.dumps(info.clear, indent=4, ensure_ascii=False))
+        file.write(json.dumps(info.clear, indent=4, ensure_ascii=False).replace("[]", "[\n            ]"))
         file.close()
         self.openfl()
 
