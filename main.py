@@ -143,9 +143,9 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit_Green.setText(str(g))
         self.ui.lineEdit_Blue.setText(str(b))
 
-    def fill_material_ui(self, material_dict):
-        material = list(material_dict.values())[0]
-        self.ui.nameLineEdit.setText(list(material_dict.keys())[0])
+    def fill_material_ui(self, material_dict_name: str):
+        material = self.data["features"][0]["Glasses"][material_dict_name]
+        self.ui.nameLineEdit.setText(material_dict_name)
         self.ui.lineEdit_Red.setText(material["color_RGB"]["Red"])
         self.ui.lineEdit_Green.setText(material["color_RGB"]["Green"])
         self.ui.lineEdit_Blue.setText(material["color_RGB"]["Blue"])
@@ -174,12 +174,11 @@ class MainWindow(QMainWindow):
     @Slot()
     def select_material(self, item):
         material_name = item.text()
-        for elem in self.data["features"][0]["Glasses"]:
-            if list(elem.keys())[0] == material_name:
-                self.ui.deleteMaterial.setEnabled(True)
-                self.ui.addMaterial.setEnabled(True)
-                self.fill_material_ui(elem)
-                break
+        elem = self.data["features"][0]["Glasses"].get(material_name)
+        if elem:
+            self.ui.deleteMaterial.setEnabled(True)
+            self.ui.addMaterial.setEnabled(True)
+            self.fill_material_ui(material_name)
 
     @Slot()
     def add_material(self):
@@ -195,17 +194,13 @@ class MainWindow(QMainWindow):
                 return
 
         material_name = self.ui.nameLineEdit.text()
-        find = False
-        for elem in self.data["features"][0]["Glasses"]:
-            if list(elem.keys())[0] == material_name:
-                material = elem[material_name]
-                self.fill_material_data(material)
-                find = True
-                break
-        if not find:
+        material = self.data["features"][0]["Glasses"].get(material_name)
+        if material:
+            self.fill_material_data(material)
+        if material is None:
             material = copy.deepcopy(info.defaultmaterial)
             self.fill_material_data(material)
-            self.data["features"][0]["Glasses"].append({material_name: material})
+            self.data["features"][0]["Glasses"][material_name] = material
             self.ui.materialsListWidget.addItem(QListWidgetItem(material_name))
             self.ui.materialsListWidget.setCurrentRow(self.ui.materialsListWidget.count() - 1)
             self.ui.deleteMaterial.setEnabled(True)
@@ -217,10 +212,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def delete_material(self):
         self.ui.addMaterial.setEnabled(False)
-        for elem in self.data["features"][0]["Glasses"]:
-            if list(elem.keys())[0] == self.ui.materialsListWidget.currentItem().text():
-                self.data["features"][0]["Glasses"].remove(elem)
-                break
+        self.data["features"][0]["Glasses"].pop(self.ui.materialsListWidget.currentItem().text())
         self.ui.materialsListWidget.takeItem(self.ui.materialsListWidget.currentRow())
         if self.ui.materialsListWidget.count() == 0:
             self.ui.deleteMaterial.setEnabled(False)
@@ -228,12 +220,12 @@ class MainWindow(QMainWindow):
                 line_edit.clear()
         else:
             material_name = self.ui.materialsListWidget.currentItem().text()
-            for elem in self.data["features"][0]["Glasses"]:
-                if list(elem.keys())[0] == material_name:
-                    self.ui.deleteMaterial.setEnabled(True)
-                    self.ui.addMaterial.setEnabled(True)
-                    self.fill_material_ui(elem)
-                    break
+            elem = self.data["features"][0]["Glasses"].get(material_name)
+            if elem:
+                self.ui.deleteMaterial.setEnabled(True)
+                self.ui.addMaterial.setEnabled(True)
+                self.fill_material_ui(material_name)
+
         self.statusBar().showMessage("Material deleted")
         self.status_unsaved = "*"
         self.setTitle()
@@ -301,7 +293,7 @@ class MainWindow(QMainWindow):
         self.ui.materialsListWidget.clear()
         if self.data["features"][0]["Glasses"]:
             for elem in self.data["features"][0]["Glasses"]:
-                self.ui.materialsListWidget.addItem(QListWidgetItem(str(list(elem.keys())[0])))
+                self.ui.materialsListWidget.addItem(QListWidgetItem(elem))
         self.ui.lineEdit_X.setText(str(self.data["features"][0]["geometry"]["coordinates"][0]))
         self.ui.lineEdit_Y.setText(str(self.data["features"][0]["geometry"]["coordinates"][1]))
         self.ui.addImage.setEnabled(True)
@@ -317,7 +309,7 @@ class MainWindow(QMainWindow):
             return
         self.filename = filename
         file = codecs.open(self.filename, "w", "utf-8-sig")
-        file.write(json.dumps(info.clear, indent=4, ensure_ascii=False).replace("[]", "[\n            ]"))
+        file.write(json.dumps(info.clear, indent=4, ensure_ascii=False).replace("{}", "{\n            }"))
         file.close()
         self.openfl()
 
@@ -340,7 +332,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def savefile(self):
         file = codecs.open(self.filename, "w", "utf-8-sig")
-        file.write(json.dumps(self.data, indent=4, ensure_ascii=False))
+        file.write(json.dumps(self.data, indent=4, ensure_ascii=False).replace("{}", "{\n            }"))
         file.close()
         self.status_unsaved = ""
         self.setTitle()
